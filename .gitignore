@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.docx
+.jobhunt/
+scratch/
+npm-debug.log*
+
+# Machine-local Claude Code settings — these carry absolute paths from
+# whichever machine created them and must never be committed.
+.claude/settings.local.json
+
+# Optional maintainer-only PII patterns for scripts/check-no-pii.sh.
+# Holds the literal strings a public guard cannot contain; never commit it.
+.pii-patterns.local

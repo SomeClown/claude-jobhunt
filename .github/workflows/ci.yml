@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  hygiene:
+    name: Repo hygiene and agent validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install renderer dependencies
+        working-directory: scripts
+        run: |
+          if [ ! -f package.json ]; then
+            echo "scripts/package.json not found — skipping dependency install."
+            exit 0
+          fi
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            echo "No package-lock.json yet — falling back to npm install."
+            npm install
+          fi
+
+      # This is the repo's core promise to contributors: no personal data
+      # ever lands in the public history. Non-zero exit fails the build.
+      - name: Check for PII and retired-name regressions
+        run: bash scripts/check-no-pii.sh
+
+      # Prove the PII guard actually fires, not just that it exists. A guard
+      # that never triggers is worse than no guard — this seeds a known
+      # violation, confirms the guard catches it, then cleans up after
+      # itself (see scripts/check-no-pii.sh's self_test() for the cleanup
+      # guarantee).
+      - name: Self-test the PII guard
+        run: bash scripts/check-no-pii.sh --self-test
+
+      # Frontmatter shape, the envoy-only Agent-tool regression guard, the
+      # tool-list snapshot diff, model pinning, jobhunt:<skill> references,
+      # ${CLAUDE_PLUGIN_ROOT} references, and plugin.json — see
+      # scripts/validate-agents.js for the full list of assertions.
+      - name: Validate agents
+        run: node scripts/validate-agents.js
+
+      - name: Run scripts test suite (if present)
+        working-directory: scripts
+        run: |
+          if [ ! -f package.json ]; then
+            echo "scripts/package.json not found — no tests to run."
+            exit 0
+          fi
+          if node -e "process.exit(require('./package.json').scripts && require('./package.json').scripts.test ? 0 : 1)"; then
+            npm test
+          else
+            echo "No \"test\" script defined in scripts/package.json yet — skipping."
+          fi

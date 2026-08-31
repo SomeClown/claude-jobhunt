@@ -1,0 +1,21 @@
+{
+  "name": "jobhunt",
+  "version": "0.1.0",
+  "description": "A six-agent job-search team for Claude Code: scan your network's companies for openings, evaluate postings, tailor honest application materials, and fill applications — with hard safety gates on anything irreversible.",
+  "author": {
+    "name": "Teren Bryson",
+    "email": "terenbryson@proton.me",
+    "url": "https://github.com/SomeClown"
+  },
+  "homepage": "https://github.com/SomeClown/claude-jobhunt",
+  "repository": "https://github.com/SomeClown/claude-jobhunt",
+  "license": "MIT",
+  "keywords": [
+    "job-search",
+    "agents",
+    "claude-code",
+    "resume",
+    "cover-letter",
+    "career"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "_comment": "Checked-in snapshot of each agent's tools/model/version frontmatter, generated from the committed agents/*.md files. validate-agents.js diffs the live frontmatter against this file on every run. This is the regression guard for a deliberate permission design: cartographer, lookout, appraiser, and scrivener do NOT have the Agent tool, on purpose, so they cannot fan out into subagents. Only envoy has Agent, to delegate the fill-page contract in jobhunt:apply. If a tool list genuinely needs to change, update the agent's frontmatter AND this file in the same commit/PR, with the reason stated in the PR description — a silent drift here is exactly the bug class this file exists to catch.",
+  "chronicler": {
+    "tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash", "AskUserQuestion"],
+    "model": "sonnet",
+    "version": "1.0.0"
+  },
+  "envoy": {
+    "tools": [
+      "Skill",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Agent",
+      "AskUserQuestion",
+      "ToolSearch",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__form_input",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__javascript_tool",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__upload_image",
+      "mcp__claude-in-chrome__tabs_close_mcp"
+    ],
+    "model": "sonnet",
+    "version": "1.0.0"
+  },
+  "appraiser": {
+    "tools": [
+      "Skill",
+      "Read",
+      "Write",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "AskUserQuestion",
+      "ToolSearch",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__javascript_tool",
+      "mcp__claude-in-chrome__tabs_close_mcp"
+    ],
+    "model": "opus",
+    "version": "1.0.0"
+  },
+  "scrivener": {
+    "tools": [
+      "Skill",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash",
+      "AskUserQuestion",
+      "ToolSearch",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__javascript_tool",
+      "mcp__claude-in-chrome__tabs_close_mcp"
+    ],
+    "model": "opus",
+    "version": "1.0.0"
+  },
+  "cartographer": {
+    "tools": ["Skill", "Read", "Write", "Edit", "Glob", "Grep", "Bash", "WebSearch", "AskUserQuestion"],
+    "model": "sonnet",
+    "version": "1.0.0"
+  },
+  "lookout": {
+    "tools": [
+      "Skill",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash",
+      "WebSearch",
+      "AskUserQuestion",
+      "ToolSearch",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__javascript_tool",
+      "mcp__claude-in-chrome__tabs_close_mcp"
+    ],
+    "model": "sonnet",
+    "version": "1.0.0"
+  }
+}

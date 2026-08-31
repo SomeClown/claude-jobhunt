@@ -1,0 +1,9 @@
+Notes:
+"When exporting your connection data, you may notice that some of the email addresses are missing. This is because your connection has set their profile visibility to private."
+
+First Name,Last Name,URL,Email Address,Company,Position,Connected On
+Jordan,Keel,https://www.example.com/in/jordan-keel,,Northwind Systems,Director of Engineering,24 Jul 2026
+Priya,Anand,https://www.example.com/in/priya-anand,,Cascade Analytics,Senior Account Executive,02 Jun 2026
+Sam,Okonkwo,https://www.example.com/in/sam-okonkwo,,Harborline Logistics,VP Operations,27 May 2026
+Dana,Whitlock,https://www.example.com/in/dana-whitlock,,Fabrikam Health,Clinical Systems Lead,14 Apr 2026
+Chris,Mbeki,https://www.example.com/in/chris-mbeki,,Vector Foundry,Staff Engineer,03 Mar 2026
