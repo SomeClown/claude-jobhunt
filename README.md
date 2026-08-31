@@ -1,3 +1,6 @@
+*“Explanations exist; they have existed for all time; there is always a well-known solution to every human problem—neat, plausible, and wrong.”*
+― H.L. Mencken, Prejudices: Second series
+
 # claude-jobhunt
 
 A six-agent job-search team for [Claude Code](https://claude.com/claude-code): it resolves the companies in your professional network to real careers pages, scans them (and keyword-searches public boards) for openings that actually fit, deep-dives a specific posting into an honest pursue-or-pass call, tailors a resume and cover letter that never claim what your work history doesn't back up, and fills out the application form up to the review page — where you always take it from there. It works for any profession: the design has nothing IT-specific baked into it, and `docs/CUSTOMIZING.md` walks through the same extension points from a nurse manager's, a marketing director's, and an academic administrator's target roles.
