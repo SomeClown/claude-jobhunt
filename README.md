@@ -26,7 +26,7 @@ A six-agent job-search team for [Claude Code](https://claude.com/claude-code): i
                                  → chronicler (log the outcome)
 ```
 
-A keyword sweep against public boards ("search for [role/keyword]") runs through `lookout` too, logging to a separate history file so contact-sourced and board-sourced results are never mixed. After any event lands — submitted, passed, drafted, a preference change, a lesson learned — route to `chronicler`. The full routing map, ready to paste into your own `CLAUDE.md`, is in [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md) and ships as the `/route` command too.
+A keyword sweep against public boards ("search for [role/keyword]") runs through `lookout` too, logging to a separate history file so contact-sourced and board-sourced results are never mixed. After any event lands — submitted, passed, drafted, a preference change, a lesson learned — route to `chronicler`. The full routing map, ready to paste into your own `CLAUDE.md`, is in [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md) and ships as the `/jobhunt:route` command too.
 
 ## 60-second quickstart
 

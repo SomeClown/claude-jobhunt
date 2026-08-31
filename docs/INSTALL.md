@@ -17,9 +17,9 @@ claude --plugin-dir ./claude-jobhunt
 
 (`/plugin install` takes a marketplace plugin name, not a filesystem path — for a local clone, `--plugin-dir` is the supported route. To make the clone permanent rather than per-launch, add it through your plugin configuration, or register it in a marketplace you control.)
 
-After launching, verify the install took: the six agents should appear in your agent list, the eight skills under the `jobhunt:` namespace, and `/route` among your commands.
+After launching, verify the install took. Claude Code namespaces plugin components, so expect the six agents to appear in your agent list as `jobhunt:cartographer`, `jobhunt:lookout`, `jobhunt:appraiser`, `jobhunt:scrivener`, `jobhunt:envoy`, and `jobhunt:chronicler`; the eight skills under the `jobhunt:` namespace; and the routing command as `/jobhunt:route`. (The namespace prefix also means the agents cannot collide with same-named agents you already have.)
 
-Either route installs the same thing: six agents under `agents/`, eight skills under `skills/`, and the `/route` command. Nothing about *your* job search is installed by this step — that starts with `jobhunt:setup` (see the [README](../README.md) quickstart).
+Either route installs the same thing: six agents under `agents/`, eight skills under `skills/`, and the `/jobhunt:route` command. Nothing about *your* job search is installed by this step — that starts with `jobhunt:setup` (see the [README](../README.md) quickstart).
 
 ## Prerequisites
 

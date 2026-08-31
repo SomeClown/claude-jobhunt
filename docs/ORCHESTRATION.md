@@ -2,7 +2,7 @@
 
 The jobhunt plugin doesn't require the experimental agent-teams feature — an orchestrating session (you, or your own top-level `CLAUDE.md` instructions) routes each request to the right agent through ordinary subagent invocation. This document is that routing map, kept in a form you can paste directly into your own `CLAUDE.md` so a fresh session routes correctly without you re-explaining it every time.
 
-The same content ships as the `/route` command (`commands/route.md`) for when you'd rather invoke it in-session than maintain a copy in your own config. Keep whichever form you actually use current if the pipeline changes for you — the two are meant to be interchangeable, not synchronized automatically.
+The same content ships as the `/jobhunt:route` command (`commands/route.md`) for when you'd rather invoke it in-session than maintain a copy in your own config. Keep whichever form you actually use current if the pipeline changes for you — the two are meant to be interchangeable, not synchronized automatically.
 
 ## The routing block
 
