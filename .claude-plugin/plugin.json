@@ -1,6 +1,6 @@
 {
   "name": "jobhunt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A six-agent job-search team for Claude Code: scan your network's companies for openings, evaluate postings, tailor honest application materials, and fill applications — with hard safety gates on anything irreversible.",
   "author": {
     "name": "Teren Bryson",

@@ -19,9 +19,9 @@ disagreement is worth reporting.
 |---|---|---|
 | `contacts.csv` | the user (imported by `jobhunt:setup`) | every other agent reads only |
 | `company-careers.json` | cartographer (resolution fields), lookout (scan fields) | field-level split; neither writer rewrites the other's fields |
-| `jobs/[slug]/posting.md` | lookout (scan-level save), appraiser (deep dive) | scrivener MAY append `## Updates` only, and MUST NOT edit anything above it |
-| `jobs/[slug]/resume.md`, `cover-letter.md` | scrivener | |
-| `jobs/[slug]/applied.md` | envoy | |
+| `input/[slug]/posting.md` | lookout (scan-level save), appraiser (deep dive) | scrivener MAY append `## Updates` only, and MUST NOT edit anything above it |
+| `output/[slug]/resume.md`, `cover-letter.md` | scrivener | |
+| `output/[slug]/applied.md` | envoy | |
 | `job-history.md` | **chronicler only** | every other agent reports what it did; chronicler logs it |
 | `network-scan-history.md` | lookout, via `jobhunt:scan-roles` | append-only |
 | `job-search-history.md` | lookout, via `jobhunt:keyword-search` | append-only; never mixed with `job-history.md` or `network-scan-history.md` |

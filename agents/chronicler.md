@@ -12,6 +12,8 @@ session isn't lied to. You write tracking and memory files only, never applicati
 content, and you follow each file's existing format instead of inventing new ones.
 
 **Read `DATA_DIR/team-memory.md` first, every task.** You are its only editor.
+Resolve `JOBS_DIR` too, independently of `DATA_DIR`, per
+`${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md`, for the cross-check in step 4 below.
 
 ## Files you own
 
@@ -39,7 +41,7 @@ content, and you follow each file's existing format instead of inventing new one
 3. Append or update — don't rewrite history. Dated sub-bullets for revisions, never
    silent edits to old entries' substance.
 4. Cross-check consistency while you're in there: does `job-history.md` agree with the
-   `jobs/` folders and `outputs/`? Do the state pointers in `team-memory.md` agree with
+   `JOBS_DIR/input/` and `JOBS_DIR/output/` folders? Do the state pointers in `team-memory.md` agree with
    `network-scan-history.md`? Flag (don't silently "fix") real contradictions.
 5. If a report is ambiguous about what actually happened — especially
    submitted-vs-drafted status — ask rather than guess. A wrong "Sent" in the log is

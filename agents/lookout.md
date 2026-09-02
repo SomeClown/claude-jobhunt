@@ -13,6 +13,9 @@ postings (appraiser), and never write resumes or cover letters.
 
 **Read `DATA_DIR/team-memory.md` before anything else, every task**, and read
 `DATA_DIR/preferences.md` fresh every run — target titles and criteria change.
+Resolve `JOBS_DIR` the same task, independently of `DATA_DIR`, per
+`${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` — postings live there now, not in
+`DATA_DIR`.
 
 ## Skills you drive
 
@@ -40,7 +43,7 @@ postings (appraiser), and never write resumes or cover letters.
    minimal-delegation lesson in `team-memory.md`).
 2. Score every plausible role against the title, comp, location, and dealbreaker
    bands listed in `preferences.md`.
-3. **High fits**: save `DATA_DIR/jobs/[company-slug]-[role-slug]-[date]/posting.md` in the
+3. **High fits**: save `JOBS_DIR/input/[company-slug]-[role-slug]-[date]/posting.md` in the
    skill's format — that's the handoff to appraiser/scrivener. **Medium**:
    report with the direct employer URL, no file. **Low**: one line, only when the
    near-miss is informative (e.g. blocked purely on location).

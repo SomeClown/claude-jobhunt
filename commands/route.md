@@ -18,6 +18,6 @@ Notes:
 
 - `appraiser` is a stopping point, not a pass-through — even a direct "evaluate and tailor this" request stops at the evaluation and waits for the user's pursue/pass call before any handoff to `scrivener`.
 - Missing materials are `envoy`'s stop condition, not something it works around — if `resume.md` (or `cover-letter.md`, when needed) doesn't exist yet, it hands back to `scrivener` rather than drafting anything itself.
-- If no `DATA_DIR` is set up yet, route to `jobhunt:setup` first regardless of what was asked — every agent above depends on it existing.
+- If no `DATA_DIR` or `JOBS_DIR` is set up yet, route to `jobhunt:setup` first regardless of what was asked — every agent above depends on both existing.
 
 The full explanation of this routing, including why `appraiser` stops and why `envoy`'s gates don't bend, is in `docs/ORCHESTRATION.md`, `docs/ARCHITECTURE.md`, and `docs/SAFETY.md`.

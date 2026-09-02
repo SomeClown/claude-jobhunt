@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * Parser for jobs/<slug>/cover-letter.md.
+ * Parser for output/<slug>/cover-letter.md.
  *
  * Targets exactly the grammar documented in reference/data-formats.md under
- * `jobs/[slug]/cover-letter.md`. Fails loudly with a line number on anything
+ * `output/[slug]/cover-letter.md`. Fails loudly with a line number on anything
  * that does not match, including the dash rule: the renderer performs no
  * dash substitution, so an em dash or en dash in the file is rejected
  * outright rather than silently shipped or silently fixed.

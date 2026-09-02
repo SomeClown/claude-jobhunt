@@ -5,14 +5,14 @@ description: Produce or revise a tailored resume for one job posting, built enti
 
 # tailor-resume
 
-This skill owns `jobs/[slug]/resume.md` — the tailored resume for one application. Its exact grammar (section order, the `Key Skills:` line, the achievement-bullet format the renderer parses) is specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate it. What this file owns is the *process* that fills that shape honestly: mapping a posting's requirements onto documented facts, deciding what to lead with, and saying plainly what got left out.
+This skill owns `output/[slug]/resume.md` — the tailored resume for one application. Its exact grammar (section order, the `Key Skills:` line, the achievement-bullet format the renderer parses) is specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate it. What this file owns is the *process* that fills that shape honestly: mapping a posting's requirements onto documented facts, deciding what to lead with, and saying plainly what got left out.
 
 ## Before drafting
 
-1. Resolve `DATA_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md`.
-2. Find the job folder and its `posting.md`. **If no `posting.md` exists for this application, stop here** — this skill does not create postings, and drafting against a title and a vague memory of a listing is how a resume ends up answering the wrong requirements. Hand back to whatever scanned or evaluated the role.
+1. Resolve `DATA_DIR` and `JOBS_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` — independently of each other.
+2. Find the job folder and its `posting.md`, in `JOBS_DIR/input/[slug]/`. **If no `posting.md` exists for this application, stop here** — this skill does not create postings, and drafting against a title and a vague memory of a listing is how a resume ends up answering the wrong requirements. Hand back to whatever scanned or evaluated the role.
 3. Read `profile.md` in full, not just the role that looks most relevant — a requirement is sometimes covered by an accomplishment filed under a different role.
-4. If `jobs/[slug]/resume.md` already exists, read it. This is a revision, not a fresh draft: keep what still fits, and treat the difference between the old and new posting language as the reason anything changes.
+4. If `output/[slug]/resume.md` already exists, read it. This is a revision, not a fresh draft: keep what still fits, and treat the difference between the old and new posting language as the reason anything changes.
 5. Read `team-memory.md` → Standing instructions for a declared always-include competency (see below).
 
 ## Map every requirement before writing a word
@@ -40,4 +40,4 @@ When the user corrects a fact while reviewing, update `profile.md` in the same t
 
 ## Output
 
-Write `jobs/[slug]/resume.md`. In the task output: the tailoring notes described above, which always-include competency (if any) was applied and where it's grounded, and any open question raised by the pre-draft clarification rule. Do not write tailoring notes into the resume file itself — `data-formats.md` doesn't define a place for them there, and the resume file's grammar is fixed.
+Write `output/[slug]/resume.md`. In the task output: the tailoring notes described above, which always-include competency (if any) was applied and where it's grounded, and any open question raised by the pre-draft clarification rule. Do not write tailoring notes into the resume file itself — `data-formats.md` doesn't define a place for them there, and the resume file's grammar is fixed.

@@ -20,7 +20,7 @@ Load its full content before acting — don't rely on memory of what it says fro
 ## Materials must already exist
 
 Materials are `scrivener`'s job, never envoy's. Check
-`DATA_DIR/jobs/[company-slug]-[role-slug]-[date]/` for `resume.md` (and `cover-letter.md`, if the
+`JOBS_DIR/output/[company-slug]-[role-slug]-[date]/` for `resume.md` (and `cover-letter.md`, if the
 form has a cover letter field); if either is missing, stop and report exactly what's
 missing — hand off to `scrivener` rather than drafting anything yourself, even
 roughly.
@@ -36,11 +36,13 @@ roughly.
 ## Where files go
 
 Resolve `DATA_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` — the order is
-`$JOBHUNT_DATA_DIR`, then `./.jobhunt/`, then `~/.jobhunt/`. If none exists, tell the
-user to run `jobhunt:setup` first and stop.
+`$JOBHUNT_DATA_DIR`, then `./.jobhunt/`, then `~/.jobhunt/`. Resolve `JOBS_DIR` the
+same way, independently — `$JOBHUNT_JOBS_DIR`, then `./job-hunt/`, then
+`~/job-hunt/`. If either doesn't resolve, tell the user to run `jobhunt:setup` first
+and stop.
 
 - `DATA_DIR/application-data.md` — the reusable applicant-data cache (personal info, standard answers, EEO defaults, and a growing "Custom Answers" section). Build it once if missing, following the skill's format; update it whenever the user gives an answer worth remembering for next time.
-- `DATA_DIR/jobs/[company-slug]-[role-slug]-[date]/applied.md` — created after this application is filled (submitted or left as a draft), per the skill's format.
+- `JOBS_DIR/output/[company-slug]-[role-slug]-[date]/applied.md` — created after this application is filled (submitted or left as a draft), per the skill's format.
 - `DATA_DIR/job-history.md` — **do not write to it.** The `chronicler` agent is its sole owner now. Report the application's outcome (status, date, who clicked Submit, files saved) clearly in your final output so the orchestrator can have chronicler log it. Don't touch `job-search-history.md` or `network-scan-history.md` either — those belong to cartographer/lookout.
 - Outreach message drafts don't need their own file unless the user asks you to save one — a quick note in the relevant job folder's `applied.md` (who it went to, when) is enough once sent.
 

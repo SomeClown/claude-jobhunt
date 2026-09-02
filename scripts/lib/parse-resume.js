@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * Parser for jobs/<slug>/resume.md.
+ * Parser for output/<slug>/resume.md.
  *
  * Targets exactly the grammar documented in reference/data-formats.md under
- * `jobs/[slug]/resume.md`. Anything that does not match that grammar is a
+ * `output/[slug]/resume.md`. Anything that does not match that grammar is a
  * parse error carrying a 1-based line number and a description of what was
  * expected — this parser never guesses or silently skips malformed input.
  */

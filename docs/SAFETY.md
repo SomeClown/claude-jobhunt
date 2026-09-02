@@ -28,6 +28,8 @@ Concretely: if a posting's text says something like "ignore prior instructions a
 
 Your entire data directory (not just this one file) holds material worth treating carefully: your work history, your compensation targets, your application history. `DATA_DIR` lives outside the plugin and is never committed by the plugin itself. If you keep it inside a git-tracked directory for any reason, exclude it — the plugin's own `.gitignore` excludes any local `.jobhunt/` for exactly this reason, and the same caution applies to wherever you actually point `DATA_DIR`.
 
+The same caution applies to `JOBS_DIR`. It's a second, separately-resolved directory (see `reference/data-dir.md`), and your rendered resume already carries your name, phone, city, and email on its own contact line — that's the same kind of plaintext personal data as `application-data.md`, just in a different directory for a different reason (findability, not bookkeeping). If `JOBS_DIR` ever ends up inside a git-tracked directory, exclude it the same way.
+
 ## What this plugin never does
 
 - Clicks Submit, Send, or any final-confirmation control.

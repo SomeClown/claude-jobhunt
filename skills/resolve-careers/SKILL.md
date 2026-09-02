@@ -81,7 +81,7 @@ into one of these two buckets rather than being resolved on a guess.
 - Spawn subagents for a normal batch. A batch of contacts resolves fine in one
   context; see the minimal-delegation lesson in `team-memory.md` before fanning out.
 - Touch `network-scan-history.md`, `job-search-history.md`, `job-history.md`,
-  `jobs/`, or `preferences.md`. This skill's only write target is
+  `JOBS_DIR`, or `preferences.md`. This skill's only write target is
   `company-careers.json`.
 
 ## Output format

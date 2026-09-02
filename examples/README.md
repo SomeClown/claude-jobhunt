@@ -1,8 +1,9 @@
 # Examples
 
-`jobs/northwind-systems-dir-it-2026-01-15/` is a single worked example of one
-application, end to end: `posting.md`, `resume.md`, `cover-letter.md`, and
-`applied.md`, in the exact shapes specified in
+`input/northwind-systems-dir-it-2026-01-15/posting.md` and
+`output/northwind-systems-dir-it-2026-01-15/{resume.md,cover-letter.md,applied.md}`
+together are a single worked example of one application, end to end, in the
+exact shapes specified in
 [`../reference/data-formats.md`](../reference/data-formats.md). Read it to see
 what "good" looks like — a High-fit posting with an honestly named depth gap,
 a resume reordered and tailored to that posting, a cover letter that handles
@@ -20,9 +21,9 @@ renderer or to the canonical schema can be checked against this folder as a
 known-good input:
 
 ```
-node scripts/render.js --job northwind-systems-dir-it-2026-01-15 --type both --data-dir /path/to/a/copy/of/examples
+node scripts/render.js --job northwind-systems-dir-it-2026-01-15 --type both --jobs-dir /path/to/a/copy/of/examples
 ```
 
-(`render.js` expects a `DATA_DIR` containing a `jobs/` subdirectory, so point
-`--data-dir` at a directory that contains this `examples/jobs/` layout — or a
-copy of it — rather than at `examples/` itself.)
+(`render.js` expects a `JOBS_DIR` containing an `output/` subdirectory, so
+point `--jobs-dir` at a directory that contains this `examples/output/`
+layout — or a copy of it — rather than at `examples/` itself.)

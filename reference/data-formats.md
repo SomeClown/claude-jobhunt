@@ -1,6 +1,6 @@
 # Data Formats
 
-This is the canonical specification for every file the jobhunt team reads or writes inside `DATA_DIR`. Agents and skills MUST link here rather than restating a format, so that a format fix lands in exactly one place. Each file below is specified with its purpose, its single owner (the one agent permitted to write it), its exact structure, a short synthetic example, which elements are required versus optional, and its append-only rules where they apply. For how `DATA_DIR` itself is located, see [`data-dir.md`](./data-dir.md). For the ownership rules and the memory contract that make single-writer ownership enforceable, see [`team-memory.md`](./team-memory.md).
+This is the canonical specification for every file the jobhunt team reads or writes inside `DATA_DIR` or `JOBS_DIR`. Agents and skills MUST link here rather than restating a format, so that a format fix lands in exactly one place. Each file below is specified with its purpose, its single owner (the one agent permitted to write it), its exact structure, a short synthetic example, which elements are required versus optional, and its append-only rules where they apply. For how `DATA_DIR` and `JOBS_DIR` are located, see [`data-dir.md`](./data-dir.md). For the ownership rules and the memory contract that make single-writer ownership enforceable, see [`team-memory.md`](./team-memory.md).
 
 Every example in this document is synthetic. The persona is **Alex Rivera**; the employers (Northwind Systems, Cascade Analytics, Harborline Logistics, Fabrikam Health, Lakeshore Robotics, Vector Foundry) are invented.
 
@@ -13,8 +13,8 @@ Every example in this document is synthetic. The persona is **Alex Rivera**; the
 - **Single writer.** Each file has exactly one owning agent. Every other agent treats it as read-only. Ownership is restated in `team-memory.md`'s File-ownership table, which is the operational copy; this document is the normative one. If the two disagree, that is a bug — report it.
 - **Append-only means append-only.** Where a file is marked append-only, existing content MUST NOT be edited or reflowed. Corrections are new dated entries that supersede older ones. The record of having been wrong is part of the value.
 - **Readers tolerate absence.** Any reader MUST treat an absent optional field as "unknown" and continue. A reader MUST NOT crash, and MUST NOT silently substitute a default that changes a decision, on a missing optional field. Unrecognized extra fields are ignored, not deleted.
-- **Slugs.** A job folder is `jobs/[company-slug]-[role-slug]-[YYYY-MM-DD]/`. Slugs are lowercase ASCII, words joined by hyphens, no other punctuation. The date is the date the posting was found, not the date the posting was published. `[role-slug]` MAY be omitted only when a company has exactly one posting on record; omitting it is discouraged because it collides the first time it is wrong. Example: `northwind-systems-dir-it-2026-01-15`.
-- **No absolute paths in file content.** Paths written into any data file are relative to `DATA_DIR` (`jobs/northwind-systems-dir-it-2026-01-15/resume.md`, `outputs/northwind-systems-dir-it-2026-01-15/`).
+- **Slugs.** A slug is `[company-slug]-[role-slug]-[YYYY-MM-DD]` and names a matching pair of folders: `input/[slug]/`, holding the posting, and `output/[slug]/`, holding everything the team produced from it. Slugs are lowercase ASCII, words joined by hyphens, no other punctuation. The date is the date the posting was found, not the date the posting was published. `[role-slug]` MAY be omitted only when a company has exactly one posting on record; omitting it is discouraged because it collides the first time it is wrong. Example: `northwind-systems-dir-it-2026-01-15`.
+- **No absolute paths in file content.** Paths written into any data file are relative to the directory that actually holds them — `DATA_DIR` for files that live there, `JOBS_DIR` for job folders, always written as `input/[slug]/posting.md` or `output/[slug]/` regardless of which file references them. See [`data-dir.md`](./data-dir.md) for the full rule.
 
 ### Ownership at a glance
 
@@ -22,9 +22,9 @@ Every example in this document is synthetic. The persona is **Alex Rivera**; the
 |---|---|---|
 | `contacts.csv` | the user (imported by `jobhunt:setup`) | agents read only |
 | `company-careers.json` | cartographer (resolution fields), lookout (scan fields) | field-level split, defined below |
-| `jobs/[slug]/posting.md` | lookout (scan-level save), appraiser (deep dive) | scrivener MAY append `## Updates` only |
-| `jobs/[slug]/resume.md`, `cover-letter.md` | scrivener | |
-| `jobs/[slug]/applied.md` | envoy | |
+| `input/[slug]/posting.md` | lookout (scan-level save), appraiser (deep dive) | scrivener MAY append `## Updates` only |
+| `output/[slug]/resume.md`, `cover-letter.md` | scrivener | |
+| `output/[slug]/applied.md` | envoy | |
 | `job-history.md` | **chronicler only** | every other agent reports; chronicler logs |
 | `network-scan-history.md` | lookout via `jobhunt:scan-roles` | append-only |
 | `job-search-history.md` | lookout via `jobhunt:keyword-search` | append-only, never mixed with the two above |
@@ -151,7 +151,7 @@ Neither writer rewrites a field it does not own. Both merge into the existing ob
 
 ---
 
-## `jobs/[slug]/posting.md` — the canonical posting schema
+## `input/[slug]/posting.md` — the canonical posting schema
 
 **Purpose.** One file per posting worth keeping: the posting's facts plus the team's fit judgment. It is the input to evaluation, tailoring, and application, so it is the file where format drift is most expensive.
 
@@ -275,7 +275,7 @@ Files written before this spec used several label sets. They map without informa
 
 ---
 
-## `jobs/[slug]/resume.md`
+## `output/[slug]/resume.md`
 
 **Purpose.** The tailored resume for one application, in markdown, as the single source of truth. `scripts/render.js` parses **exactly** this structure to produce the `.docx`; it fails loudly with a line number on anything it does not recognize rather than guessing. **Writer:** scrivener, via `jobhunt:tailor-resume`.
 
@@ -345,7 +345,7 @@ Affiliations: Front Range IT Leadership Roundtable. Volunteer: STEM mentoring.
 
 ---
 
-## `jobs/[slug]/cover-letter.md`
+## `output/[slug]/cover-letter.md`
 
 **Purpose.** The tailored cover letter for one application. Like `resume.md`, it is both the source of truth and the renderer's input. **Writer:** scrivener, via `jobhunt:cover-letter`.
 
@@ -399,7 +399,7 @@ Paragraph jobs, in order: hook and why this role; strongest achievement mapped t
 
 ---
 
-## `jobs/[slug]/applied.md`
+## `output/[slug]/applied.md`
 
 **Purpose.** The record of what happened when the application was actually filled out: which ATS, on what date, in what state it was left, and everything a future reader needs to avoid re-deriving. **Writer:** envoy, via `jobhunt:apply`.
 
@@ -447,7 +447,7 @@ Paragraph jobs, in order: hook and why this role; strongest achievement mapped t
 - **Status**: Submitted (2026-01-16) — form filled and verified by envoy; final Submit clicked by the user
 - **Location model**: Fully remote, US
 - **Comp**: $185,000 - $240,000 base plus equity
-- **Files**: `jobs/northwind-systems-dir-it-2026-01-15/` (posting, resume, cover letter, applied log); `outputs/northwind-systems-dir-it-2026-01-15/` (rendered .docx pair)
+- **Files**: `input/northwind-systems-dir-it-2026-01-15/` (posting); `output/northwind-systems-dir-it-2026-01-15/` (resume, cover letter, applied log, rendered .docx pair)
 - **Warm contact**: Jordan Keel, Director of Engineering — noted in posting.md, no outreach drafted
 - **Notes**: Found via network scan of contacts 26-50, rated High. Resume led with
   the automation and audit bullets. Cover letter names the missing security
@@ -460,7 +460,7 @@ Paragraph jobs, in order: hook and why this role; strongest achievement mapped t
 - **Status**: Passed (2026-01-12) — on-site five days a week in a metro the user has ruled out; the role itself was a strong functional match
 - **Location model**: On-site, 5 days
 - **Comp**: Not listed
-- **Files**: `jobs/fabrikam-health-dir-secops-2026-01-11/posting.md` (posting only, no materials)
+- **Files**: `input/fabrikam-health-dir-secops-2026-01-11/posting.md` (posting only, no materials)
 - **Notes**: Logged so it is not re-evaluated cold on a future scan.
 
 ## Open Items / Follow-ups
@@ -515,7 +515,7 @@ Scope: sequential batch resuming from contact 26, sorted by Connected On descend
 ### Companies without a resolvable careers page (3)
 Summit Group (name too ambiguous), Rivera Coaching (solo brand, marked ignored), Blank (contact listed no company).
 
-**Result: 1 High fit saved (Northwind Systems Director of IT Infrastructure, `jobs/northwind-systems-dir-it-2026-01-15/`). 1 Medium reported with a direct URL. 1 Low noted (strong function match, on-site only). 3 companies unresolved rather than guessed. Vector Foundry flagged for retry, not confirmed-empty.**
+**Result: 1 High fit saved (Northwind Systems Director of IT Infrastructure, `input/northwind-systems-dir-it-2026-01-15/`). 1 Medium reported with a direct URL. 1 Low noted (strong function match, on-site only). 3 companies unresolved rather than guessed. Vector Foundry flagged for retry, not confirmed-empty.**
 ```
 
 ### Rules
@@ -548,7 +548,7 @@ Scope: keywords derived from preferences.md target roles ("director of IT", "IT 
 | hiring.cafe | Vector Foundry | Head of Infrastructure | Not listed | Austin, TX (hybrid) | Medium | https://jobs.lever.co/vectorfoundry/8812 |
 | Example Board | Fabrikam Health | IT Operations Director | $150,000 - $175,000 | On-site, 5 days | Low | https://fabrikam-health.example.com/careers/911 |
 
-**Result: 1 High fit saved (`jobs/lakeshore-robotics-dir-it-2026-01-20/`). 1 Medium reported with a direct URL — comp unlisted, recorded as a gap. 1 Low noted for location only. 12 duplicates suppressed; no board flagged for retry.**
+**Result: 1 High fit saved (`input/lakeshore-robotics-dir-it-2026-01-20/`). 1 Medium reported with a direct URL — comp unlisted, recorded as a gap. 1 Low noted for location only. 12 duplicates suppressed; no board flagged for retry.**
 ```
 
 Ranking within the table is by fit tier, then comp midpoint, then recency — explicitly not the board's own relevance order.

@@ -5,11 +5,11 @@ description: Fill out an ATS application form for a posting that already has tai
 
 # apply
 
-This skill owns `application-data.md` (the reusable-answer cache) and `jobs/[slug]/applied.md` (the per-application record). Both formats are specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate them.
+This skill owns `application-data.md` (the reusable-answer cache, in `DATA_DIR`) and `output/[slug]/applied.md` (the per-application record, in `JOBS_DIR`). Both formats are specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate them. Resolve `DATA_DIR` and `JOBS_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` before doing anything else — the two are resolved independently.
 
 ## What this skill is not
 
-This skill fills forms. It does not write resumes or cover letters, and missing materials are a stop condition, not something to work around: if `jobs/[slug]/resume.md` — or `cover-letter.md`, when the form asks for one — doesn't exist yet, stop and report that materials need to be drafted first, by name (`jobhunt:tailor-resume` / `jobhunt:cover-letter`), rather than drafting anything here, even roughly.
+This skill fills forms. It does not write resumes or cover letters, and missing materials are a stop condition, not something to work around: if `output/[slug]/resume.md` — or `cover-letter.md`, when the form asks for one — doesn't exist yet, stop and report that materials need to be drafted first, by name (`jobhunt:tailor-resume` / `jobhunt:cover-letter`), rather than drafting anything here, even roughly.
 
 ## Stages
 
@@ -59,4 +59,4 @@ Once the form reaches its final review or summary screen, stop. Report what was 
 
 ## After
 
-Write `jobs/[slug]/applied.md` per its canonical format, with the actual status this run produced — almost always `Filled, not submitted`, since this skill never submits. Update `application-data.md` if a new Custom Answer was confirmed during this run, so the next application with a similar question doesn't ask again. Report the outcome clearly in the task output (ATS, status, what's still pending) so the chronicler can log it in `job-history.md` — this skill does not write that file.
+Write `output/[slug]/applied.md` per its canonical format, with the actual status this run produced — almost always `Filled, not submitted`, since this skill never submits. Update `application-data.md` if a new Custom Answer was confirmed during this run, so the next application with a similar question doesn't ask again. Report the outcome clearly in the task output (ATS, status, what's still pending) so the chronicler can log it in `job-history.md` — this skill does not write that file.

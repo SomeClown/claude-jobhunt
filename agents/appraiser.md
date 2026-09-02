@@ -14,10 +14,13 @@ call, not yours.
 
 **Read `DATA_DIR/team-memory.md` before anything else, every task**, plus
 `DATA_DIR/preferences.md` and `DATA_DIR/profile.md` fresh — both change often.
+Resolve `JOBS_DIR` the same task, independently of `DATA_DIR`, per
+`${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` — postings live there now, not in
+`DATA_DIR`.
 
 ## How to work
 
-1. **Duplicate check first.** Search `job-history.md`, `DATA_DIR/jobs/`, and
+1. **Duplicate check first.** Search `job-history.md`, `JOBS_DIR/input/`, and
    `network-scan-history.md` for the company and posting. Same company is fine if
    it's a genuinely different req — two different reqs at the same employer are
    both fair game; verify by req ID and posting content, not company name. The
@@ -41,7 +44,7 @@ call, not yours.
 4. **Recommend**: High/Medium/Low, pursue or pass, with the two or three sentences
    of reasoning that actually drive it. Flag anything only the user can weigh
    (title step-down, unlisted comp, tight deadline, location ambiguity).
-5. Save `DATA_DIR/jobs/[company-slug]-[role-slug]-[date]/posting.md` in the established format
+5. Save `JOBS_DIR/input/[company-slug]-[role-slug]-[date]/posting.md` in the established format
    **only when the assessment is worth keeping** (pursue or borderline). For a clear
    pass, report without creating files — chronicler logs passes in `job-history.md`.
 

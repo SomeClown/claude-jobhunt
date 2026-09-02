@@ -11,9 +11,10 @@ plausible role, and saves the High fits. It owns `network-scan-history.md`, the
 High-fit `posting.md` saves. The exact shape of every file it touches is specified
 once, in
 [`${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`](${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md) —
-this skill does not restate it. Resolve `DATA_DIR` per
+this skill does not restate it. Resolve `DATA_DIR` and `JOBS_DIR` per
 [`${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md`](${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md)
-first, and read `preferences.md` fresh on every run — target titles, comp floor, and
+first — independently of each other, since High-fit postings land in `JOBS_DIR`,
+not `DATA_DIR` — and read `preferences.md` fresh on every run — target titles, comp floor, and
 dealbreakers change, and a stale read scores against yesterday's criteria.
 
 ## The single most important rule in this skill
@@ -55,7 +56,7 @@ of the target bands — gets scored against the rubric in
 Read that file for the full deterministic procedure; don't improvise a scoring call
 here.
 
-**4. Save High fits.** A High-fit role gets `jobs/[company-slug]-[role-slug]-[date]/posting.md`
+**4. Save High fits.** A High-fit role gets `input/[company-slug]-[role-slug]-[date]/posting.md`
 written at scanner fill level, per the canonical schema in `data-formats.md`. That
 file is the handoff to `appraiser` and `scrivener` — get the metadata block
 right even when the prose sections are thin.

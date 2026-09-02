@@ -5,14 +5,15 @@
  * jobhunt markdown-to-docx renderer.
  *
  * Usage:
- *   node render.js --job <slug> --type resume|cover-letter|both [--data-dir <path>] [--out <path>]
+ *   node render.js --job <slug> --type resume|cover-letter|both [--jobs-dir <path>] [--out <path>]
  *
- * Resolves DATA_DIR/jobs/<slug>/<type>.md and renders it to
- * DATA_DIR/outputs/<slug>/<Name>_<Type>.docx. The filename is derived from
+ * Resolves JOBS_DIR/output/<slug>/<type>.md and renders it, in place, to
+ * JOBS_DIR/output/<slug>/<Name>_<Type>.docx — markdown source and rendered
+ * .docx end up as siblings in the same folder. The filename is derived from
  * the candidate name found in the document, never hardcoded.
  *
- * DATA_DIR resolution (see reference/data-dir.md): --data-dir flag, then
- * $JOBHUNT_DATA_DIR, then ./.jobhunt/, then ~/.jobhunt/.
+ * JOBS_DIR resolution (see reference/data-dir.md): --jobs-dir flag, then
+ * $JOBHUNT_JOBS_DIR, then ./job-hunt/, then ~/job-hunt/.
  *
  * resume.md/cover-letter.md are the single source of truth. No content ever
  * lives in this code.
@@ -34,7 +35,7 @@ function usageError(message) {
 }
 
 function parseArgs(argv) {
-  const args = { job: null, type: null, dataDir: null, out: null };
+  const args = { job: null, type: null, jobsDir: null, out: null };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     switch (arg) {
@@ -46,8 +47,8 @@ function parseArgs(argv) {
         args.type = argv[i + 1];
         i += 1;
         break;
-      case '--data-dir':
-        args.dataDir = argv[i + 1];
+      case '--jobs-dir':
+        args.jobsDir = argv[i + 1];
         i += 1;
         break;
       case '--out':
@@ -61,39 +62,39 @@ function parseArgs(argv) {
   return args;
 }
 
-function resolveDataDir(cliOverride) {
+function resolveJobsDir(cliOverride) {
   if (cliOverride) {
     const resolved = path.resolve(cliOverride);
     if (!fs.existsSync(resolved) || !fs.statSync(resolved).isDirectory()) {
-      throw usageError(`--data-dir ${cliOverride} does not exist`);
+      throw usageError(`--jobs-dir ${cliOverride} does not exist`);
     }
     return resolved;
   }
 
-  const envDir = process.env.JOBHUNT_DATA_DIR;
+  const envDir = process.env.JOBHUNT_JOBS_DIR;
   if (envDir) {
     const resolved = path.resolve(envDir);
     if (!fs.existsSync(resolved) || !fs.statSync(resolved).isDirectory()) {
       throw usageError(
-        `$JOBHUNT_DATA_DIR is set to ${envDir}, but that directory does not exist`
+        `$JOBHUNT_JOBS_DIR is set to ${envDir}, but that directory does not exist`
       );
     }
     return resolved;
   }
 
-  const cwdDir = path.resolve(process.cwd(), '.jobhunt');
+  const cwdDir = path.resolve(process.cwd(), 'job-hunt');
   if (fs.existsSync(cwdDir) && fs.statSync(cwdDir).isDirectory()) {
     return cwdDir;
   }
 
-  const homeDir = path.resolve(os.homedir(), '.jobhunt');
+  const homeDir = path.resolve(os.homedir(), 'job-hunt');
   if (fs.existsSync(homeDir) && fs.statSync(homeDir).isDirectory()) {
     return homeDir;
   }
 
   throw usageError(
-    'no DATA_DIR found ($JOBHUNT_DATA_DIR unset, no ./.jobhunt, no ~/.jobhunt). ' +
-      'Run jobhunt:setup first, or pass --data-dir <path>.'
+    'no JOBS_DIR found ($JOBHUNT_JOBS_DIR unset, no ./job-hunt, no ~/job-hunt). ' +
+      'Run jobhunt:setup first, or pass --jobs-dir <path>.'
   );
 }
 
@@ -157,9 +158,9 @@ const TYPE_INFO = {
   'cover-letter': { fileStem: 'cover-letter', label: 'Cover_Letter' },
 };
 
-async function renderOne(dataDir, slug, type, outOverride) {
+async function renderOne(jobsDir, slug, type, outOverride) {
   const info = TYPE_INFO[type];
-  const mdPath = path.join(dataDir, 'jobs', slug, `${info.fileStem}.md`);
+  const mdPath = path.join(jobsDir, 'output', slug, `${info.fileStem}.md`);
   if (!fs.existsSync(mdPath)) {
     throw usageError(`${mdPath} does not exist`);
   }
@@ -183,7 +184,7 @@ async function renderOne(dataDir, slug, type, outOverride) {
   const safeName = safeFilenamePart(candidateName);
   const outPath = outOverride
     ? path.resolve(outOverride)
-    : path.join(dataDir, 'outputs', slug, `${safeName}_${info.label}.docx`);
+    : path.join(jobsDir, 'output', slug, `${safeName}_${info.label}.docx`);
 
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   const buffer = await Packer.toBuffer(doc);
@@ -204,13 +205,13 @@ async function main() {
     throw usageError('--out cannot be combined with --type both (ambiguous output path for two files)');
   }
 
-  const dataDir = resolveDataDir(args.dataDir);
-  console.log(`Using DATA_DIR: ${dataDir}`);
+  const jobsDir = resolveJobsDir(args.jobsDir);
+  console.log(`Using JOBS_DIR: ${jobsDir}`);
 
   const types = args.type === 'both' ? ['resume', 'cover-letter'] : [args.type];
   for (const type of types) {
     // eslint-disable-next-line no-await-in-loop
-    await renderOne(dataDir, args.job, type, args.out);
+    await renderOne(jobsDir, args.job, type, args.out);
   }
 }
 
@@ -220,7 +221,7 @@ main().catch((err) => {
   } else if (err.usage) {
     console.error(`Error: ${err.message}`);
     console.error(
-      'Usage: node render.js --job <slug> --type resume|cover-letter|both [--data-dir <path>] [--out <path>]'
+      'Usage: node render.js --job <slug> --type resume|cover-letter|both [--jobs-dir <path>] [--out <path>]'
     );
   } else {
     console.error(err.stack || err.message || String(err));

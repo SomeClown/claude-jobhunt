@@ -6,10 +6,11 @@ description: Use when a user wants to set up the jobhunt plugin for the first ti
 # jobhunt:setup
 
 **What this owns.** The process that takes a user with nothing to a working
-`DATA_DIR`: choosing where it lives, copying in the shipped templates, and running
-the interviews that turn empty templates into real preferences, work history, and
-application data. It does not own any file's format — every file this skill creates
-conforms to [`reference/data-formats.md`](../../reference/data-formats.md), and its
+`DATA_DIR` and `JOBS_DIR`: choosing where each lives, copying in the shipped
+templates, and running the interviews that turn empty templates into real
+preferences, work history, and application data. It does not own any file's
+format — every file this skill creates conforms to
+[`reference/data-formats.md`](../../reference/data-formats.md), and its
 directory-resolution logic conforms to
 [`reference/data-dir.md`](../../reference/data-dir.md). Link there rather than
 re-deriving a format here; a format fix belongs in exactly one place.
@@ -26,14 +27,19 @@ it's relevant:
   explicitly confirmed in this conversation is marked `[inferred — confirm]` inline,
   next to the fact, in `profile.md` — never silently written as settled. The same
   marker is used for anything left genuinely open in `preferences.md`.
-- **Idempotent, repair-only.** If a `DATA_DIR` already exists, setup detects it and
-  offers *repair mode*: create whatever's missing, fill an untouched template's
-  placeholders where asked, and never overwrite content the user already has.
+- **Idempotent, repair-only.** If a `DATA_DIR` or `JOBS_DIR` already exists, setup
+  detects it and offers *repair mode*: create whatever's missing, fill an untouched
+  template's placeholders where asked, and never overwrite content the user already
+  has.
   Re-running setup against a healthy directory is a clean no-op.
 
-## Stage 1 — Resolve or choose DATA_DIR
+## Stage 1 — Resolve or choose DATA_DIR and JOBS_DIR
 
-Apply the resolution order in `reference/data-dir.md` exactly: `$JOBHUNT_DATA_DIR` →
+`DATA_DIR` and `JOBS_DIR` are resolved independently, the same way, per
+`reference/data-dir.md`. Run this stage for both — resolving one does not tell you
+anything about the other.
+
+**`DATA_DIR`.** Apply the resolution order exactly: `$JOBHUNT_DATA_DIR` →
 `./.jobhunt/` → `~/.jobhunt/`.
 
 - If `$JOBHUNT_DATA_DIR` is set but does not point at an existing directory, report
@@ -45,28 +51,46 @@ Apply the resolution order in `reference/data-dir.md` exactly: `$JOBHUNT_DATA_DI
   `~/.jobhunt/`, so every project on the machine shares one search history. Mention
   `./.jobhunt/` as the escape hatch for a genuinely separate search (a second
   persona, a test run, a shared machine). **Confirm the exact resolved path with the
-  user before creating anything.** Creating a data directory is the one piece of
+  user before creating anything.** Creating a data directory is a piece of
   infrastructure this skill builds, and it is not something to guess at.
 
-### Stage 1b — Existing DATA_DIR: repair mode
+**`JOBS_DIR`.** Apply the identical resolution order, with its own env var and its
+own default locations: `$JOBHUNT_JOBS_DIR` → `./job-hunt/` → `~/job-hunt/`.
 
-When `DATA_DIR` resolves and already contains files, this is not a fresh setup:
+- Same rule on a set-but-nonexistent `$JOBHUNT_JOBS_DIR`: report the mismatch and
+  stop, don't fall through.
+- If one of the three already resolves, tell the user which path it is and ask
+  whether to use it (→ Stage 1b) or point setup somewhere else instead.
+- If none exists, ask the user where their job postings and materials should live.
+  Default suggestion: `~/job-hunt/`, for the same shared-by-default reasoning as
+  `~/.jobhunt/`. Mention `./job-hunt/` as the same kind of escape hatch. **Confirm
+  the exact resolved path with the user before creating anything.** Mention, in
+  passing, why this one has no leading dot unlike `~/.jobhunt/`: it holds the actual
+  postings and finished documents the user goes looking for in Finder or Explorer,
+  not bookkeeping they rarely open by hand.
 
-1. Check which of the eight templated files, plus `contacts.csv` (if previously
-   imported), `jobs/`, and `outputs/`, already exist.
-2. Report the gap in one sentence — what's present, what's missing.
-3. For each missing file, offer to create it from its template (Stage 2) and, where
-   it needs one, run the relevant interview (Stages 3-6) — scoped to what's missing
-   only. A `preferences.md` that already exists is never re-interviewed or
-   overwritten here; a preference change afterward is an `chronicler` update, not a
-   setup re-run.
-4. If everything required is already present, say so and skip straight to the
-   summary (Stage 7).
+### Stage 1b — Existing DATA_DIR / JOBS_DIR: repair mode
+
+When either directory resolves and already contains files, that directory is not a
+fresh setup — check each independently, since one can be fresh while the other is
+established:
+
+1. For `DATA_DIR`: check which of the eight templated files, plus `contacts.csv` (if
+   previously imported), already exist. For `JOBS_DIR`: check whether `input/` and
+   `output/` already exist.
+2. Report the gap in one sentence per directory — what's present, what's missing.
+3. For each missing file or folder, offer to create it from its template (Stage 2)
+   and, where it needs one, run the relevant interview (Stages 3-6) — scoped to
+   what's missing only. A `preferences.md` that already exists is never
+   re-interviewed or overwritten here; a preference change afterward is a
+   `chronicler` update, not a setup re-run.
+4. If everything required is already present in both directories, say so and skip
+   straight to the summary (Stage 7).
 
 ## Stage 2 — Copy templates in
 
 Copy each file from `${CLAUDE_PLUGIN_ROOT}/templates/` into `DATA_DIR`, and create
-`jobs/` and `outputs/` as empty directories:
+`input/` and `output/` as empty directories in `JOBS_DIR`:
 
 | Template | Destination in DATA_DIR |
 |---|---|
@@ -210,8 +234,8 @@ warning `reference/data-formats.md` requires.
 
 Print, in one place:
 
-- The resolved `DATA_DIR` path.
-- What was created versus what already existed (repair mode).
+- The resolved `DATA_DIR` and `JOBS_DIR` paths.
+- What was created versus what already existed (repair mode), for each.
 - Every fact still marked `[inferred — confirm]` in `profile.md` or
   `preferences.md`, so the user can resolve them later instead of hunting for them.
 - Whether `contacts.csv` was imported, and Stage 5's scope sentence if so.

@@ -2,7 +2,7 @@
   "name": "jobhunt-render",
   "version": "0.1.0",
   "private": true,
-  "description": "Markdown-to-docx renderer for jobhunt resumes and cover letters. Reads jobs/<slug>/resume.md and cover-letter.md and produces ATS-friendly .docx files.",
+  "description": "Markdown-to-docx renderer for jobhunt resumes and cover letters. Reads output/<slug>/resume.md and cover-letter.md and produces ATS-friendly .docx files in place.",
   "type": "commonjs",
   "main": "render.js",
   "scripts": {

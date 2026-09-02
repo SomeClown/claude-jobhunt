@@ -2,6 +2,33 @@
 
 All notable changes to this project are recorded here. Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versioning is semver for the plugin as a whole (individual agents carry their own independent `version` in frontmatter — see `CONTRIBUTING.md`).
 
+## 0.2.0 — 2026-09-02
+
+**Breaking change to the data layout.** `DATA_DIR/jobs/` and `DATA_DIR/outputs/` are
+split out of `DATA_DIR` entirely, into a second, independently-resolved directory,
+`JOBS_DIR`. `JOBS_DIR/input/[slug]/` replaces `DATA_DIR/jobs/[slug]/posting.md`;
+`JOBS_DIR/output/[slug]/` replaces both `DATA_DIR/jobs/[slug]/{resume.md,cover-letter.md,applied.md}`
+and `DATA_DIR/outputs/[slug]/*.docx` — tailored markdown sources and their rendered
+`.docx` pair are now siblings in the same folder, instead of split across two
+different trees.
+
+- `JOBS_DIR` resolves the same way `DATA_DIR` does — `$JOBHUNT_JOBS_DIR`, then
+  `./job-hunt/`, then `~/job-hunt/` — but deliberately without a leading dot: it
+  holds the postings and finished documents a user actually goes looking for, not
+  bookkeeping. Full resolution order and the reasoning for the visibility split are
+  in `reference/data-dir.md`.
+- `scripts/render.js` now takes `--jobs-dir` (mirroring the old `--data-dir`) and
+  reads and writes entirely within `JOBS_DIR/output/<slug>/`; `--data-dir` is
+  removed, since the renderer no longer touches `DATA_DIR` at all.
+- `jobhunt:setup` resolves and scaffolds `JOBS_DIR` (empty `input/` and `output/`)
+  alongside `DATA_DIR`, independently, with the same set-but-nonexistent error rule
+  and the same never-guess, ask-first stance on creating either one.
+- Every agent, skill, reference doc, template, and the shipped `examples/` fixture
+  are updated to the new paths. `DATA_DIR`'s own resolution, its dot-prefix
+  convention, and the files that stay there (`profile.md`, `preferences.md`,
+  `job-history.md`, `team-memory.md`, `application-data.md`, `company-careers.json`,
+  the two history logs, `contacts.csv`) are unchanged.
+
 ## 0.1.0 — 2026-08-31
 
 Initial release.

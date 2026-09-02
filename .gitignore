@@ -2,6 +2,7 @@ node_modules/
 .DS_Store
 *.docx
 .jobhunt/
+job-hunt/
 scratch/
 npm-debug.log*
 

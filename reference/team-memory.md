@@ -27,7 +27,7 @@ The same single-writer discipline applies to `job-history.md`, also chronicler-o
 
 A table naming, for every file in `DATA_DIR`, which agent writes it and what everyone else may do. It is the operational restatement of the ownership table in [`data-formats.md`](./data-formats.md), which is the normative source. If the two ever disagree, `data-formats.md` wins and the disagreement is a bug worth reporting.
 
-Rows state the owner and, where ownership is split at field level (`company-careers.json`) or by fill level (`jobs/[slug]/posting.md`), say exactly how. A row may name an exception — scrivener appending `## Updates` to a posting it does not own is the canonical one — but an exception must be narrow enough to state in one clause.
+Rows state the owner and, where ownership is split at field level (`company-careers.json`) or by fill level (`input/[slug]/posting.md`), say exactly how. A row may name an exception — scrivener appending `## Updates` to a posting it does not own is the canonical one — but an exception must be narrow enough to state in one clause.
 
 ### 2. `## Operational lessons`
 

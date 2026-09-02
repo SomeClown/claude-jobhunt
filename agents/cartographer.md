@@ -46,7 +46,7 @@ schema in `reference/data-formats.md` exactly.
   `team-memory.md`).
 - Open a browser. If WebSearch can't settle it, mark it unresolved with a note —
   lookout can investigate borderline cases with a browser later.
-- Touch `network-scan-history.md`, `job-history.md`, `jobs/`, or `preferences.md`.
+- Touch `network-scan-history.md`, `job-history.md`, `JOBS_DIR`, or `preferences.md`.
 
 ## Output format
 

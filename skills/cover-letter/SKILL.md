@@ -5,14 +5,14 @@ description: Produce or revise a 250-350 word cover letter for one job posting, 
 
 # cover-letter
 
-This skill owns `jobs/[slug]/cover-letter.md`. The file's fixed grammar — the salutation, the closing, the 250-350 word window, the hyphens-only dash rule — is specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate it. What this file owns: which achievements to use, how the paragraphs are structured, how to name a gap without either hiding it or apologizing for it, and the slot where a user's own voice skill takes over.
+This skill owns `output/[slug]/cover-letter.md`. The file's fixed grammar — the salutation, the closing, the 250-350 word window, the hyphens-only dash rule — is specified once, in `${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`; this file does not restate it. What this file owns: which achievements to use, how the paragraphs are structured, how to name a gap without either hiding it or apologizing for it, and the slot where a user's own voice skill takes over.
 
 ## Before drafting
 
-1. Resolve `DATA_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md`.
-2. Read `posting.md`'s `## About the Role` and `## Requirements`.
+1. Resolve `DATA_DIR` and `JOBS_DIR` per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` — independently of each other.
+2. Read `posting.md`'s `## About the Role` and `## Requirements`, from `JOBS_DIR/input/[slug]/`.
 3. Read `profile.md`.
-4. If `jobs/[slug]/resume.md` already exists, read its tailoring notes and reuse the same read on what's covered and what isn't — the two documents must never disagree about what the candidate is and isn't claiming. If no resume has been drafted yet for this application, apply the same accuracy discipline and the same pre-draft clarification rule that `jobhunt:tailor-resume` uses before treating anything as a confirmed gap.
+4. If `output/[slug]/resume.md` already exists, read its tailoring notes and reuse the same read on what's covered and what isn't — the two documents must never disagree about what the candidate is and isn't claiming. If no resume has been drafted yet for this application, apply the same accuracy discipline and the same pre-draft clarification rule that `jobhunt:tailor-resume` uses before treating anything as a confirmed gap.
 5. Check `preferences.md` → `## Voice` for a declared `voice_skill`.
 
 ## Pick 2-3 achievements
@@ -60,4 +60,4 @@ Check `preferences.md` → `## Voice` for `voice_skill`:
 
 ## Output
 
-Write `jobs/[slug]/cover-letter.md`. In the task output: state the word count and explicitly confirm the dash check found zero em or en dashes (the stated check, not a silent pass), name which achievements were used and what each maps to, note how the gap (if any) was handled, and state whether a `voice_skill` ran and passed its own self-check.
+Write `output/[slug]/cover-letter.md`. In the task output: state the word count and explicitly confirm the dash check found zero em or en dashes (the stated check, not a silent pass), name which achievements were used and what each maps to, note how the gap (if any) was handled, and state whether a `voice_skill` ran and passed its own self-check.

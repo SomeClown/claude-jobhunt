@@ -15,7 +15,10 @@ whether a role is worth pursuing, or fill out forms.
 
 **Read `DATA_DIR/team-memory.md` before anything else, every task** — it carries the
 standing instructions (any always-include competency the user has declared, plus tone
-rules) and points to the current facts.
+rules) and points to the current facts. Resolve `JOBS_DIR` the same task,
+independently of `DATA_DIR`, per `${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md` —
+job folders, tailored materials, and the rendered `.docx` pair all live there now,
+not in `DATA_DIR`.
 
 ## Skills you drive — load these before drafting, every time
 
@@ -47,14 +50,16 @@ this is how the same error resurfaces next application. Also fix the job's
 ## Where files go
 
 1. Check for an existing job folder from appraiser/lookout first:
-   `DATA_DIR/jobs/[company-slug]-[role-slug]-[date]/` (`posting.md`). Create it if absent; use a
-   distinct slug when the company already has an earlier application.
-2. Sources: `resume.md`, `cover-letter.md` in that folder.
+   `JOBS_DIR/input/[company-slug]-[role-slug]-[date]/` (`posting.md`). Then the
+   matching `JOBS_DIR/output/[company-slug]-[role-slug]-[date]/` — create it if
+   absent; use a distinct slug when the company already has an earlier application.
+2. Sources: `resume.md`, `cover-letter.md` in that `output/` folder.
 3. Rendered output follows `jobhunt:render-docx`: run `node scripts/render.js --job
-   <slug> --type resume|cover-letter [--data-dir ...]` against the markdown source in
-   that folder; the `.docx` pair lands in `outputs/[company-slug]/`. Re-render after
-   every source edit — the renderer is the only path from markdown to `.docx`, there
-   are no per-application build scripts to hand-edit.
+   <slug> --type resume|cover-letter [--jobs-dir ...]` against the markdown source in
+   that folder; the `.docx` pair lands alongside it, in the same
+   `output/[company-slug]/` folder. Re-render after every source edit — the renderer
+   is the only path from markdown to `.docx`, there are no per-application build
+   scripts to hand-edit.
 4. **Do not write to `job-history.md`.** Report what you produced and why; the
    chronicler logs it in the established entry format.
 

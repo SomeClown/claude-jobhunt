@@ -10,9 +10,10 @@ configured, scores the results, and logs them. It owns `job-search-history.md` a
 only that file — never `network-scan-history.md`, and never `job-history.md`. The
 exact table format and append-only rules are specified once, in
 [`${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md`](${CLAUDE_PLUGIN_ROOT}/reference/data-formats.md);
-this skill does not restate them. Resolve `DATA_DIR` per
+this skill does not restate them. Resolve `DATA_DIR` and `JOBS_DIR` per
 [`${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md`](${CLAUDE_PLUGIN_ROOT}/reference/data-dir.md)
-first.
+first — independently of each other, since High-fit postings land in `JOBS_DIR`,
+not `DATA_DIR`.
 
 ## Where the boards come from
 
@@ -64,7 +65,7 @@ dedupe count), the results table with its leading `Source` column, and the closi
 `**Result:**` line. Append-only — a later search never edits an earlier section.
 
 **6. Save High fits.** Same as `jobhunt:scan-roles`: a High-fit result gets a
-`jobs/[company-slug]-[role-slug]-[date]/posting.md` at scanner fill level, with
+`input/[company-slug]-[role-slug]-[date]/posting.md` at scanner fill level, with
 `**Source**` recording `keyword-search (YYYY-MM-DD)`.
 
 ## Ranking

@@ -9,8 +9,8 @@ This document is about *why* the six agents are split where they are, not just w
 | **cartographer** | `company-careers.json`'s resolution fields (`careers_url`, `type`, `last_resolved`) | the `Agent` tool; any browser tool |
 | **lookout** | `network-scan-history.md`, `job-search-history.md`, `company-careers.json`'s scan fields, High-fit `posting.md` saves | the `Agent` tool |
 | **appraiser** | deep-dive `posting.md` fills | the `Agent` tool; never writes materials |
-| **scrivener** | `jobs/[slug]/resume.md`, `cover-letter.md`, the rendered `.docx` pair | the `Agent` tool |
-| **envoy** | `application-data.md`, `jobs/[slug]/applied.md` | Submit/Send-clicking, ever |
+| **scrivener** | `output/[slug]/resume.md`, `cover-letter.md`, the rendered `.docx` pair | the `Agent` tool |
+| **envoy** | `application-data.md`, `output/[slug]/applied.md` | Submit/Send-clicking, ever |
 | **chronicler** | `job-history.md`, `preferences.md` (on explicit change), `team-memory.md` | any tool that touches materials, postings, or the cache |
 
 Skill-to-agent map: `cartographer` drives `jobhunt:resolve-careers`; `lookout` drives `jobhunt:scan-roles` and `jobhunt:keyword-search`; `appraiser` uses no dedicated skill of its own (it applies the same fit-scoring procedure inline, against a live posting); `scrivener` drives `jobhunt:tailor-resume`, `jobhunt:cover-letter`, and `jobhunt:render-docx`; `envoy` drives `jobhunt:apply`, which in turn delegates the mechanical fill step to a fill subagent per `skills/apply/references/fill-page.md`. `jobhunt:setup` isn't owned by any of the six — it's the front door, invoked directly, that builds the data directory those six then operate on.
