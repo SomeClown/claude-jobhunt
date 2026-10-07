@@ -4,7 +4,7 @@ Everything in this document is a config change inside your own `preferences.md` 
 
 ## Bring your own voice skill
 
-`scrivener` writes cover letters with a plain, direct default register — see `skills/cover-letter/SKILL.md`. If you have (or write) your own skill that describes a personal writing voice, you can plug it into the cover-letter step instead.
+`scrivener` writes cover letters with a plain, direct default register — see `skills/cover-letter/SKILL.md`. If you have (or write) your own skill that describes a personal writing voice, you can plug it into the cover-letter step instead. `envoy` uses the same declared skill for the outreach messages it drafts to network contacts (see `agents/envoy.md`, "Voice for outreach drafts").
 
 **The contract a voice skill has to meet:**
 
@@ -19,7 +19,7 @@ Everything in this document is a config change inside your own `preferences.md` 
 - voice_skill: my-plugin:my-voice-skill
 ```
 
-`scrivener` loads it via `Skill` and applies it — see `skills/cover-letter/SKILL.md`'s "bring-your-own-voice slot" for exactly when it hands off.
+`scrivener` loads it via `Skill` and applies it — see `skills/cover-letter/SKILL.md`'s "bring-your-own-voice slot" for exactly when it hands off. `envoy` loads the same skill for outreach drafts, using the skill's outreach guidance if it has any and its professional register otherwise.
 
 **What happens with none declared.** `voice_skill: none`, or the `## Voice` section left out entirely, is a fully supported, complete configuration — `jobhunt:cover-letter`'s own default register applies: plain, direct, no corporate jargon, willing to name a weak point without hedging it into meaninglessness. You do not need a voice skill to use this plugin; it's an optional refinement, not a missing piece.
 

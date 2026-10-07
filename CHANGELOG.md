@@ -2,6 +2,16 @@
 
 All notable changes to this project are recorded here. Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versioning is semver for the plugin as a whole (individual agents carry their own independent `version` in frontmatter — see `CONTRIBUTING.md`).
 
+## 0.2.1 — 2026-10-07
+
+- `envoy` (1.1.0) now loads the declared `voice_skill` for the outreach messages it
+  drafts, the same bring-your-own-voice slot `scrivener` uses for cover letters. It
+  uses the voice skill's outreach guidance if the skill has any, and its professional
+  register otherwise. With no voice skill declared, outreach drafts follow a short
+  default: name the real connection first, one easy-to-decline ask, no flattery.
+- `docs/CUSTOMIZING.md` documents that the voice slot covers outreach as well as
+  cover letters.
+
 ## 0.2.0 — 2026-09-02
 
 **Breaking change to the data layout.** `DATA_DIR/jobs/` and `DATA_DIR/outputs/` are
