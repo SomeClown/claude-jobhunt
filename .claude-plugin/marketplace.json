@@ -1,0 +1,14 @@
+{
+  "name": "jobhunt",
+  "owner": {
+    "name": "Teren Bryson",
+    "url": "https://github.com/SomeClown"
+  },
+  "plugins": [
+    {
+      "name": "jobhunt",
+      "source": "./",
+      "description": "A six-agent job-search team for Claude Code: scan your network's companies for openings, evaluate postings, tailor honest application materials, and fill applications \u2014 with hard safety gates on anything irreversible."
+    }
+  ]
+}
